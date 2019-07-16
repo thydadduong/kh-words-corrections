@@ -53,16 +53,9 @@ export default {
   },
   methods: {
     findIncorrectWords() {
-      // if (!this.query) {
-      //   return this.khWords;
-      // }
-      // return this.khWords.replace(new RegExp(this.query, "gi"), match => {
-      //   return '<span class="highlightText">' + match + "</span>";
-      // });
+      this.missignWords = [];
       const wordsToCheck = this.splitWord() || [];
-      this.khWords = this.editingWords;
       this.splitedWord = wordsToCheck;
-      // this.khWords= wordsToCheck
       wordsToCheck.forEach(word => {
         let firstChar = word.charAt(0);
         try {
@@ -87,13 +80,14 @@ export default {
     },
     applyErrorFormat() {
       let errorRegex = "";
-      this.missignWords.forEach(word => {
-        errorRegex += word + "|";
-      });
-      errorRegex = errorRegex.slice(0, -1);
-      return this.khWords.replace(new RegExp(errorRegex, "gu"), match => {
-        console.log("math: ", match);
 
+      this.missignWords.forEach(word => {
+        errorRegex += word.replace(/[<>*()?]/g, "\\$&") + "|";
+      });
+
+      errorRegex = errorRegex.slice(0, -1);
+
+      return this.editingWords.replace(new RegExp(errorRegex, "g"), match => {
         return '<span class="highlightText">' + match + "</span>";
       });
     },

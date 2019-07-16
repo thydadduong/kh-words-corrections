@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar sticky-top navbar-expand-md navbar-light shadow bg-light">
+    <nav id="nav" class="navbar sticky-top navbar-expand-md navbar-light shadow-sm justify-content-end bg-light ">
       <div class="container">
-        <a class="navbar-brand" href="#">Khmer Words Correction</a>
+        <a class="navbar-brand" href="#"><img :src="require('@/assets/images/khmer.png')" class="shadow-sm" style="height:26px"  alt=""></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -14,7 +14,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse mt-2" id="navbarSupportedContent">
           <ul class="navbar-nav">
             <li class="nav-item">
               <router-link to="/" class="nav-link">Home</router-link>
