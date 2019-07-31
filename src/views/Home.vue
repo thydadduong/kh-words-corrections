@@ -11,7 +11,7 @@
         <textarea rows="5" class="form-control" v-model="editingWords" />
       </div>
       <div class="card-footer">
-        <div class="d-flex flex-column flex-md-row justify-content-center">
+        <div class="d-flex flex-column flex-md-row justify-content-between ">
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-outline-dark" @click="findIncorrectWords">
               <!-- eslint-disable-next-line -->
@@ -22,10 +22,9 @@
             <!-- eslint-disable-next-line -->
             <button type="button" class="btn btn-outline-dark" @click="insertZWSP">ដាក់ ZWSP</button>
           </div>
-          <div class="flex-fill"></div>
-          <div class="form-group form-check m-0" v-if="previewZwsp">
+          <div class="form-group form-check" v-if="previewZwsp">
             <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="zwspAsSpaces" />
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <label class="form-check-label" for="exampleCheck1">ប្រើ​ដកឃ្លា ជនួសឲ្យ​ចន្លោះមិនឃើញ (ZWSP)</label>
           </div>
         </div>
       </div>

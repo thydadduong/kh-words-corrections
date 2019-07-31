@@ -53,7 +53,6 @@ const KhmerWordSegment = {
         } = this.data;
         // paragraph = "កើតជាមនុស្សមានសាច់។កើតជាមនុស្សមានសាច់។";
         // paragraph = "។។។..";
-        console.log(paragraphChunks);
 
         let paragraphPieces = paragraphChunks
             .map(chunks => {
