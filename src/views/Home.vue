@@ -23,11 +23,20 @@
         </div>
       </div>
     </div>
-    <div class="card">
+    <div class="card mb-4">
+      <div class="card-header">ពាក្យទាំងអស់</div>
+      <div class="card-body">
+        <div id="word-preview" >
+          <p v-if="!!splitedWord.length">
+            {{splitedWord}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-4">
       <div class="card-header">លទ្ធផល</div>
       <div class="card-body">
         <div id="word-preview">
-          {{splitedWord}}
           <div v-html="checkedWords" />
           <!-- <div v-html="findIncorrectWords()"></div> -->
         </div>
@@ -104,6 +113,7 @@ export default {
     },
     resetTextFormat() {
       this.checkedWords = "";
+      this.splitedWord =[]
     }
   }
   // computed: {
