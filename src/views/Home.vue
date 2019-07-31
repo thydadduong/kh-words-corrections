@@ -11,25 +11,31 @@
         <textarea rows="5" class="form-control" v-model="editingWords" />
       </div>
       <div class="card-footer">
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-dark" @click="findIncorrectWords">
+        <div class="d-flex flex-column flex-md-row justify-content-center">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-dark" @click="findIncorrectWords">
+              <!-- eslint-disable-next-line -->
+              ពិនិត្រ​អក្ខរាវិរុទ្ធ
+            </button>
             <!-- eslint-disable-next-line -->
-            ពិនិត្រ​អក្ខរាវិរុទ្ធ
-          </button>
-          <!-- eslint-disable-next-line -->
-          <button type="button" class="btn btn-outline-dark" @click="resetTextFormat">ជម្រះ</button>
-          <!-- eslint-disable-next-line -->
-          <button type="button" class="btn btn-outline-dark">ដាក់ ZWSP</button>
+            <button type="button" class="btn btn-outline-dark" @click="resetTextFormat">ជម្រះ</button>
+            <!-- eslint-disable-next-line -->
+            <button type="button" class="btn btn-outline-dark" @click="insertZWSP">ដាក់ ZWSP</button>
+          </div>
+          <div class="flex-fill"></div>
+          <div class="form-group form-check m-0" v-if="previewZwsp">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="zwspAsSpaces" />
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
         </div>
       </div>
     </div>
     <div class="card mb-4">
       <div class="card-header">ពាក្យទាំងអស់</div>
       <div class="card-body">
-        <div id="word-preview" >
-          <p v-if="!!splitedWord.length">
-            {{splitedWord}}
-          </p>
+        <div id="word-preview">
+          <p class="mb-0" v-if="previewZwsp">{{zwspWords}}</p>
+          <p class="mb-0" v-else-if="!!splitedWord.length">{{splitedWord}}</p>
         </div>
       </div>
     </div>
@@ -37,8 +43,8 @@
       <div class="card-header">លទ្ធផល</div>
       <div class="card-body">
         <div id="word-preview">
-          <div v-html="checkedWords" />
-          <!-- <div v-html="findIncorrectWords()"></div> -->
+          <p class="mb-0" v-if="previewZwsp">{{renderZwspParagraph}}</p>
+          <p v-else v-html="checkedWords" class="mb-0" />
         </div>
       </div>
     </div>
@@ -46,6 +52,7 @@
 </template>
 
 <script>
+import KhmerWordSegment from "../utils/kh-word-checker/text_scanner";
 // @ is an alias to /src
 export default {
   name: "home",
@@ -57,11 +64,16 @@ export default {
       khWords: "",
       missignWords: [],
       checkedWords: "",
-      splitedWord: []
+      splitedWord: [],
+      zwspWords: [],
+      zwspParagraph: "",
+      previewZwsp: false,
+      zwspAsSpaces: false
     };
   },
   methods: {
     findIncorrectWords() {
+      this.previewZwsp = false;
       this.missignWords = [];
       const wordsToCheck = this.splitWord() || [];
       this.splitedWord = wordsToCheck;
@@ -113,21 +125,24 @@ export default {
     },
     resetTextFormat() {
       this.checkedWords = "";
-      this.splitedWord =[]
+      this.splitedWord = [];
+      this.previewZwsp = false;
+    },
+    insertZWSP() {
+      let zwsp = KhmerWordSegment.scanWords(this.editingWords);
+      this.zwspParagraph = zwsp;
+      this.zwspWords = zwsp.split("\u200B");
+      this.previewZwsp = true;
+    }
+  },
+  computed: {
+    renderZwspParagraph() {
+      if (this.zwspAsSpaces) {
+        return this.zwspWords.join(" ");
+      }
+      return this.zwspParagraph;
     }
   }
-  // computed: {
-  //   splitWord() {
-  //     const words = this.editingWords
-  //       .replace(/\s+/g, "\u200B")
-  //       .replace(/\u200B+/g, "\u200B")
-  //       .split("\u200B");
-  //     const uniqueWords = words.filter(
-  //       (val, i, self) => self.indexOf(val) === i
-  //     );
-  //     return uniqueWords;
-  //   }
-  // }
 };
 </script>
 
